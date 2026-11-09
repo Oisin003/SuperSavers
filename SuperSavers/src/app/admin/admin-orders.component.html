@@ -1,0 +1,46 @@
+<div class="orders-management">
+  <h2>All Orders</h2>
+
+  <div class="order-summary">
+    <div class="summary-card">
+      <div class="summary-label">Total Orders</div>
+      <div class="summary-value">{{getTotalOrderCount()}}</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Total Quantity</div>
+      <div class="summary-value">{{getTotalQuantity()}}</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">Unique Shops</div>
+      <div class="summary-value">{{getUniqueShops().length}}</div>
+    </div>
+  </div>
+
+  <div *ngIf="allOrders.length === 0" class="no-orders">
+    <p>No orders have been placed yet.</p>
+  </div>
+
+  <div *ngIf="allOrders.length > 0" class="orders-by-user">
+    <div *ngFor="let shop of getUniqueShops()" class="user-orders">
+      <h3>{{shop}}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of getOrdersByShop(shop)">
+            <td>{{order.productId}}</td>
+            <td>{{order.productName}}</td>
+            <td>{{order.category}}</td>
+            <td>{{order.qty}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

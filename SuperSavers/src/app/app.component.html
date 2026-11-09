@@ -1,0 +1,39 @@
+<header>
+  <nav>
+    <img src="images.jpg" class="logo" alt="SuperSavers logo" />
+    <h1>SuperSavers Inventory</h1>
+    <a routerLink="/">Home</a>
+    <a *ngIf="auth.isWarehouse()" routerLink="/orders">Orders</a>
+    <a *ngIf="auth.isAdmin()" routerLink="/admin">Admin Dashboard</a>
+    <span class="spacer"></span>
+    <span *ngIf="auth.currentUser">Logged in: {{auth.currentUser.username}} ({{auth.currentUser.role}})</span>
+    <a *ngIf="!auth.currentUser" routerLink="/login">Login</a>
+    <button *ngIf="auth.currentUser" (click)="logout()">Logout</button>
+  </nav>
+</header>
+
+<main>
+  <div class="app-grid" [class.login-layout]="router.url === '/login'">
+    <aside class="sidebar" *ngIf="router.url !== '/login'">
+      <h3>Categories</h3>
+      <ul>
+        <li><a routerLink="/category/Food">Food</a></li>
+        <li><a routerLink="/category/Household">Household</a></li>
+        <li><a routerLink="/category/Powders&Plastics">Powders & Plastics</a></li>
+        <li><a routerLink="/category/Pet Food">Pet Food</a></li>
+        <li><a routerLink="/category/Car Care">Car Care</a></li>
+        <li><a routerLink="/category/Toiletries">Toiletries</a></li>
+        <li><a routerLink="/category/Toilet Roll">Toilet Roll</a></li>
+        <li><a routerLink="/category/Cereals">Cereals</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+</main>
+
+<footer>
+  SuperSavers — Inventory dashboard · Built for in-store ordering
+</footer>

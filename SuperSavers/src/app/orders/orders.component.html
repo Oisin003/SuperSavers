@@ -1,0 +1,40 @@
+<h2>Warehouse - Orders to Pack</h2>
+
+<ng-container *ngIf="selectedShop && selectedCategory; else shopOrderList">
+  <button routerLink="/orders" class="orders-back">← All shops</button>
+  <h2>{{selectedShop}} — {{selectedCategory}} Order</h2>
+  <table *ngIf="selectedOrders.length > 0">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of selectedOrders">
+        <td>{{order.productName}}</td>
+        <td>{{order.qty}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="selectedOrders.length === 0">This order could not be found.</p>
+</ng-container>
+
+<ng-template #shopOrderList>
+  <section *ngFor="let group of shopGroups" class="shop-order-group">
+    <h3>{{group.shopLocation}}</h3>
+    <div class="shop-order-categories">
+      <a
+        *ngFor="let category of getCategories(group)"
+        class="category-order-link"
+        [routerLink]="['/orders', group.shopLocation, category]">
+        <span>{{category}}</span>
+        <span class="category-order-count">{{getCategoryQuantity(group, category)}} items →</span>
+      </a>
+    </div>
+  </section>
+
+  <p *ngIf="orders.length === 0">No orders at the moment.</p>
+</ng-template>
+
+<button *ngIf="!selectedShop || !selectedCategory" routerLink="/">Back</button>

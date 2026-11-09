@@ -1,0 +1,114 @@
+<div class="products-management">
+  <h2>Product Management</h2>
+
+  <div class="message" *ngIf="message" [class.error]="message.startsWith('✗')">{{message}}</div>
+
+  <!-- Add Stock Section -->
+  <div class="quick-action-form">
+    <h3>Add Stock to Existing Product</h3>
+    <div class="form-row">
+      <label>Product</label>
+      <select [(ngModel)]="addStockProductId">
+        <option [value]="null">-- Select Product --</option>
+        <option *ngFor="let p of allProducts" [value]="p.id">{{p.id}}: {{p.description}} (Stock: {{p.quantity}})</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Quantity to Add</label>
+      <input type="number" [(ngModel)]="addStockQuantity" min="1" />
+    </div>
+    <div class="form-row">
+      <button (click)="addStockToProduct()">Add Stock</button>
+    </div>
+  </div>
+
+  <!-- Add New Product Section -->
+  <div class="add-product-form">
+    <h3>Add New Product</h3>
+    <div class="form-row">
+      <label>Product ID</label>
+      <input type="number" [(ngModel)]="newId" placeholder="Unique ID" min="1" />
+    </div>
+    <div class="form-row">
+      <label>Name</label>
+      <input [(ngModel)]="newName" placeholder="Product name" />
+    </div>
+    <div class="form-row">
+      <label>Description</label>
+      <input [(ngModel)]="newDescription" placeholder="Product description" />
+    </div>
+    <div class="form-row">
+      <label>Category</label>
+      <select [(ngModel)]="newCategory">
+        <option value="">-- Select Category --</option>
+        <option *ngFor="let c of categories" [value]="c">{{c}}</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>Price (€)</label>
+      <input type="number" [(ngModel)]="newPrice" placeholder="0.00" step="0.01" min="0" />
+    </div>
+    <div class="form-row">
+      <label>Sold As (Pack Size)</label>
+      <input type="number" [(ngModel)]="newPackSize" min="1" />
+    </div>
+    <div class="form-row">
+      <label>Initial Stock</label>
+      <input type="number" [(ngModel)]="newStock" min="0" />
+    </div>
+    <div class="form-row">
+      <button (click)="addProduct()">Add Product</button>
+    </div>
+  </div>
+
+  <!-- Products List -->
+  <div class="products-list">
+    <h3>All Products ({{allProducts.length}})</h3>
+    <div *ngIf="allProducts.length === 0" class="no-products">
+      <p>No products available.</p>
+    </div>
+    
+    <div *ngFor="let category of getAllCategories()" class="category-section">
+      <h4>{{category}} ({{getProductsByCategory(category).length}})</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Pack Size</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of getProductsByCategory(category)" [class.editing]="editingId === product.id">
+            <td>{{product.id}}</td>
+            <td *ngIf="editingId !== product.id">{{product.name}}</td>
+            <td *ngIf="editingId === product.id"><input [(ngModel)]="editName" /></td>
+            
+            <td *ngIf="editingId !== product.id">{{product.description}}</td>
+            <td *ngIf="editingId === product.id"><input [(ngModel)]="editDescription" /></td>
+            
+            <td *ngIf="editingId !== product.id">€{{product.price.toFixed(2)}}</td>
+            <td *ngIf="editingId === product.id"><input type="number" [(ngModel)]="editPrice" step="0.01" /></td>
+            
+            <td *ngIf="editingId !== product.id">{{product.packSize}}</td>
+            <td *ngIf="editingId === product.id"><input type="number" [(ngModel)]="editPackSize" min="1" /></td>
+            
+            <td *ngIf="editingId !== product.id">{{product.quantity}}</td>
+            <td *ngIf="editingId === product.id"><input type="number" [(ngModel)]="editStock" min="0" /></td>
+            
+            <td class="actions">
+              <button *ngIf="editingId !== product.id" (click)="startEdit(product)">Edit</button>
+              <button *ngIf="editingId === product.id" (click)="saveEdit()" class="save-btn">Save</button>
+              <button *ngIf="editingId === product.id" (click)="cancelEdit()" class="cancel-btn">Cancel</button>
+              <button *ngIf="editingId !== product.id" (click)="deleteProduct(product.id, product.name)" class="delete-btn">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="login-shell">
+  <section class="login-intro" aria-label="SuperSavers introduction">
+    <div class="login-brand">
+      <img src="images.jpg" class="login-logo" alt="SuperSavers logo" />
+      <span>SuperSavers</span>
+    </div>
+    <div class="login-intro-copy">
+      <span class="login-eyebrow">Stock, orders, all in one place</span>
+      <h1>Make every shift run smoother.</h1>
+      <p>Keep your team connected to the stock and orders that keep your store moving.</p>
+    </div>
+    <p class="login-note">A clearer view of your store starts here.</p>
+  </section>
+
+  <section class="login-form-panel">
+    <form class="login-form" (ngSubmit)="submit()">
+      <span class="login-eyebrow">Welcome back</span>
+      <h2>Sign in</h2>
+      <p class="form-description">Enter your staff account details to continue.</p>
+
+      <label class="login-field">
+        <span>Username</span>
+        <input
+          name="username"
+          [(ngModel)]="username"
+          placeholder="Your username"
+          autocomplete="username"
+          required />
+      </label>
+
+      <label class="login-field">
+        <span>Password</span>
+        <input
+          name="password"
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Your password"
+          autocomplete="current-password"
+          required />
+      </label>
+
+      <p *ngIf="error" class="login-error" role="alert">{{error}}</p>
+      <button class="login-submit" type="submit">Sign in</button>
+    </form>
+  </section>
+</div>

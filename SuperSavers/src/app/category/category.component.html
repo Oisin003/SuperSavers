@@ -1,0 +1,35 @@
+<h2>{{categoryName}} - Current Stock</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Sold As</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of products; let i = index" [class.ordered]="isProductOrderedByAny(p)">
+      <td>{{p.id}}</td>
+      <td>{{p.description}}</td>
+      <td>{{p.price | currency:'EUR':'symbol':'1.2-2'}}</td>
+      <td>{{p.packSize}}</td>
+      <td>{{p.quantity}}</td>
+      <td>
+        <ng-container *ngIf="canOrder(); else warehouseView">
+          <button (click)="orderOnce(p)" [disabled]="!canOrder()">+</button>
+          <button (click)="cancelOrder(p)" [disabled]="qtyOrdered(p) <= 0">-</button>
+          <span>Ordered: {{qtyOrdered(p)}}</span>
+        </ng-container>
+        <ng-template #warehouseView>
+          <span *ngIf="isProductOrderedByAny(p)">Ordered</span>
+        </ng-template>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p *ngIf="products.length === 0">No items in this category.</p>
+<button routerLink="/">Back</button>

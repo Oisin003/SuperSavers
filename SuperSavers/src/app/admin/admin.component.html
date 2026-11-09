@@ -1,0 +1,32 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome, {{auth.currentUser?.username}}</p>
+  </div>
+
+  <div class="admin-tabs">
+    <button [class.active]="activeTab === 'dashboard'" (click)="setActiveTab('dashboard')">Dashboard</button>
+    <button [class.active]="activeTab === 'orders'" (click)="setActiveTab('orders')">All Orders</button>
+    <button [class.active]="activeTab === 'staff'" (click)="setActiveTab('staff')">Staff Management</button>
+    <button [class.active]="activeTab === 'products'" (click)="setActiveTab('products')">Product Management</button>
+  </div>
+
+  <div class="admin-content">
+    <div *ngIf="activeTab === 'dashboard'" class="tab-content">
+      <h2>Dashboard</h2>
+      <p>Admin Dashboard - Use the tabs above to manage orders, staff, and products.</p>
+    </div>
+
+    <div *ngIf="activeTab === 'orders'" class="tab-content">
+      <app-admin-orders></app-admin-orders>
+    </div>
+
+    <div *ngIf="activeTab === 'staff'" class="tab-content">
+      <app-admin-staff></app-admin-staff>
+    </div>
+
+    <div *ngIf="activeTab === 'products'" class="tab-content">
+      <app-admin-products></app-admin-products>
+    </div>
+  </div>
+</div>

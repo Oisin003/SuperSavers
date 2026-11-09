@@ -1,0 +1,9 @@
+<h2>Central Inventory Page</h2>
+<p>Select a category to view current stock (ordered):</p>
+<div>
+  <button *ngFor="let c of categories" [routerLink]="['/category', c]">{{c}}</button>
+</div>
+
+<div style="margin-top: 12px">
+  <button [routerLink]="['/scanner']">Open Scanner</button>
+</div>

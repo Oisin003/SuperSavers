@@ -1,0 +1,61 @@
+<div class="staff-management">
+  <h2>Staff Management</h2>
+
+  <div class="add-staff-form">
+    <h3>Add New Staff Member</h3>
+    <div class="form-row">
+      <label>Username</label>
+      <input [(ngModel)]="newUsername" placeholder="Enter username" />
+    </div>
+    <div class="form-row">
+      <label>Password</label>
+      <input type="password" [(ngModel)]="newPassword" placeholder="Enter password" />
+    </div>
+    <div class="form-row">
+      <label>Role</label>
+      <select [(ngModel)]="newRole">
+        <option value="shop">Shop</option>
+        <option value="warehouse">Warehouse</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <button (click)="addStaff()">Add Staff Member</button>
+    </div>
+  </div>
+
+  <div class="message" *ngIf="message" [class.error]="message.startsWith('✗')">{{message}}</div>
+
+  <div class="staff-list">
+    <h3>Current Staff</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Shop / Location</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of staff">
+          <td>{{user.username}}</td>
+          <td *ngIf="editingUser !== user.username">{{getRoleDisplay(user.role)}}</td>
+          <td *ngIf="editingUser === user.username">
+            <select [(ngModel)]="editRole">
+              <option value="shop">Shop</option>
+              <option value="warehouse">Warehouse</option>
+            </select>
+          </td>
+          <td>{{user.location || '—'}}</td>
+          <td>
+            <button *ngIf="editingUser !== user.username && user.role !== 'admin'" (click)="startEdit(user.username)">Edit</button>
+            <button *ngIf="editingUser === user.username" (click)="saveEdit()" class="save-btn">Save</button>
+            <button *ngIf="editingUser === user.username" (click)="cancelEdit()" class="cancel-btn">Cancel</button>
+            <button *ngIf="editingUser !== user.username && user.role !== 'admin'" (click)="deleteStaff(user.username)" class="delete-btn">Delete</button>
+            <span *ngIf="user.role === 'admin'" class="admin-badge">Admin</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
